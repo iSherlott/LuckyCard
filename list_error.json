@@ -5,5 +5,7 @@
   "004 - Erro interno": "Erro ao salvar banco de dados Ecchi",
   "005 - Erro interno": "Erro ao salvar banco de dados Hentai",
   "006 - Erro interno": "Erro ao salvar banco de dados Mahou Shoujo",
-  "007 - Erro interno": "Erro ao registar novo usuario"
+  "007 - Erro interno": "Erro ao registar novo usuario",
+  "008 - Erro interno": "Erro ao configurar Servidor",
+  "009 - Erro interno": "Erro ao adicionar nova sala"
 }

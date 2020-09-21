@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const Setting = new Schema({
   serverID: {
-    type: Number,
+    type: String,
   },
   channel: [],
   serverGM: {
-    type: Number,
+    type: String,
   },
   member: [],
 });
