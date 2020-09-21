@@ -23,9 +23,35 @@ module.exports = class Auth {
     if (this.message.channel.type === "text") return true;
   }
 
-  // validationChannel() {
-  //   Setting.findOne({ channel: this.message.channel.id }).then((setting) => {});
-  // }
+  async validationChannel() {
+    let cont = 0;
+    await Setting.findOne({ channel: this.message.channel.id }).then(
+      (setting) => {
+        if (setting) {
+          if (setting.channel.length == 2) {
+            for (let i = 0; i < setting.channel.length; i++) {
+              if (this.message.channel.id == setting.channel[i]) {
+                cont += 1;
+              }
+            }
+          } else {
+            if (this.message.channel.id == setting.channel) {
+              cont += 1;
+            }
+          }
+        }
+      }
+    );
+
+    switch (cont) {
+      case 0:
+        return false;
+        break;
+      case 1:
+        return true;
+        break;
+    }
+  }
 
   validation() {
     if (this.noBot() == true && this.noDM() == true) return true;

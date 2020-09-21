@@ -78,7 +78,7 @@ client.on("message", async (message) => {
         }
     }
 
-    if (auth.validation() == true) {
+    if (auth.validation() == true && (await auth.validationChannel()) == true) {
       let opc = auth.opc();
 
       //Comandos
