@@ -1,0 +1,23 @@
+Raridade R{
+Color: White
+Rarity: Common
+Icon: CardsMith
+Type: Creature
+Subype: "Tipo do Album"
+}
+
+Raridade SR{
+Color: Blue (Legendary)
+Rarity: Rare
+Icon: Fallen Empires
+Type: Creature
+Subype: "Tipo do Album"
+}
+
+Raridade UR{
+Color: Gold (Gods)
+Rarity: MyticRare
+Icon: Guilds of Ravnica
+Type: Creature
+Subype: "Tipo do Album"
+}
