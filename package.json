@@ -1,0 +1,25 @@
+{
+  "name": "LuckyCard",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000L\u0000u\u0000c\u0000k\u0000y\u0000C\u0000a\u0000r\u0000d\u0000\r\u0000 \u0000",
+  "main": "main.js",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "mongoose": "^5.10.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iSherlott/LuckyCard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iSherlott/LuckyCard/issues"
+  },
+  "homepage": "https://github.com/iSherlott/LuckyCard#readme"
+}
