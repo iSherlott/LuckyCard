@@ -7,5 +7,6 @@
   "006 - Erro interno": "Erro ao salvar banco de dados Mahou Shoujo",
   "007 - Erro interno": "Erro ao registar novo usuario",
   "008 - Erro interno": "Erro ao configurar Servidor",
-  "009 - Erro interno": "Erro ao adicionar nova sala"
+  "009 - Erro interno": "Erro ao adicionar nova sala",
+  "010 - Erro interno": "Erro ao salvar o novo valor do daily"
 }

@@ -8,6 +8,7 @@ connectDB();
 const Auth = require("./help/Auth");
 
 const config = require("./config/config.json");
+const { profile } = require("console");
 
 require("./model/book");
 const Book = mongoose.model("book");
@@ -113,6 +114,40 @@ client.on("message", async (message) => {
               message.channel.send(
                 `Seu saldo é de: ${Profiler.wallet} ${config.moeda}`
               );
+            }
+          });
+          break;
+
+        case config.prefix + "daily":
+          Register.findOne({ id: message.author.id }).then((profiler) => {
+            if (profiler) {
+              if (profiler.daily > new Date().toDateString()) {
+                profiler.daily = new Date().toDateString();
+                profiler.wallet += 500;
+
+                Register(profiler)
+                  .save()
+                  .then(() => {
+                    message.channel.send(
+                      `Parabéns <@!${message.author.id}>, Seu novo saldo é de ${profiler.wallet}.`
+                    );
+                  })
+                  .catch((err) => {
+                    message.channel.send(`010 - Erro interno: ${err}`);
+                  });
+              } else if (
+                profiler.date.slice(0, 15) == new Date().toDateString()
+              ) {
+                message.channel.send(
+                  `<@!${message.author.id}>, Seu daily só estará habilitado a partir de amanhã`
+                );
+              } else {
+                message.channel.send(
+                  `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente amanhã!`
+                );
+              }
+            } else {
+              message.channel.send(`Primeiro você tem que abrir uma conta!`);
             }
           });
           break;
