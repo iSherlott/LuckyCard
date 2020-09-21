@@ -53,21 +53,17 @@ client.on("message", async (message) => {
                 if (setting.channel[key] == message.channel.id) {
                   channel += 1;
                 }
+              }
+              if (channel == 0) {
+                setting.channel.push(message.channel.id);
 
-                if (channel == 0) {
-                  setting.channel.push(message.channel.id);
-
-                  Setting(setting)
-                    .save()
-                    .then(() => {
-                      message.channel.send(`Nova sala cadastrada`);
-                    })
-                    .catch((err) => {
-                      message.channel.send(`009 - Erro interno: ${err}`);
-                    });
-                } else {
-                  message.channel.send(`Sala já cadastrada`);
-                }
+                Setting.updateOne({ serverID: message.guild.id }, setting).then(
+                  () => {
+                    message.channel.send(`Sala configurada com sucesso!`);
+                  }
+                );
+              } else {
+                message.channel.send(`Sala já cadastrada`);
               }
             }
           });
@@ -76,6 +72,21 @@ client.on("message", async (message) => {
             `Você precisa ser o Dono do servidor para executar esse comando`
           );
         }
+        break;
+
+      case config.prefix + "deconfigured":
+        Setting.findOne({ serverID: message.guild.id }).then((setting) => {
+          setting.channel.pull(message.channel.id);
+
+          Setting(setting)
+            .save()
+            .then(() => {
+              message.channel.send(
+                "A preferencia desse chat foi removida com sucesso, Aisha não ira mais responder comandos desse sala"
+              );
+            });
+        });
+        break;
     }
 
     if (auth.validation() == true && (await auth.validationChannel()) == true) {
