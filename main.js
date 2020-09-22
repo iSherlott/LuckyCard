@@ -132,7 +132,7 @@ client.on("message", async (message) => {
         case config.prefix + "daily":
           Register.findOne({ id: message.author.id }).then((profiler) => {
             if (profiler) {
-              if (profiler.daily > new Date().toDateString()) {
+              if (profiler.daily < new Date().toDateString()) {
                 profiler.daily = new Date().toDateString();
                 profiler.wallet += 500;
 

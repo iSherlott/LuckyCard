@@ -13,6 +13,7 @@ ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerad
 
 ### Notas de atualizações:
 
+varsão 1.1.0 - Atualização no comando Daily <br />
 varsão 1.0.10 - Comando Deconfigured ativado com sucesso. <br />
 versão 1.0.9 - Sistema de autenticação para responder somente a sala cadastrada no banco de dados <br />
 versão 1.0.8 - Personalizando README <br />
