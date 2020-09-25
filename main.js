@@ -99,8 +99,9 @@ client.on("message", async (message) => {
             if (register == null) {
               const singUp = {
                 id: message.author.id,
-                daily: new Date().toDateString(),
-                date: new Date(),
+                update: 0,
+                daily: parseInt(new Date().getTime()),
+                date: parseInt(new Date().getTime()),
               };
 
               new Register(singUp)
@@ -132,8 +133,8 @@ client.on("message", async (message) => {
         case config.prefix + "daily":
           Register.findOne({ id: message.author.id }).then((profiler) => {
             if (profiler) {
-              if (profiler.daily < new Date().toDateString()) {
-                profiler.daily = new Date().toDateString();
+              if (profiler.daily + 86400000 <= new Date().getTime()) {
+                profiler.daily = new Date().getTime();
                 profiler.wallet += 500;
 
                 Register(profiler)
@@ -146,12 +147,13 @@ client.on("message", async (message) => {
                   .catch((err) => {
                     message.channel.send(`010 - Erro interno: ${err}`);
                   });
-              } else if (
-                profiler.date.slice(0, 15) == new Date().toDateString()
-              ) {
+              } else if (profiler.date + 86400000 >= new Date().getTime()) {
                 message.channel.send(
                   `<@!${message.author.id}>, Seu daily só estará habilitado a partir de amanhã`
                 );
+                let date = profiler.date + 86400000;
+                console.log(date);
+                console.log(new Date(date));
               } else {
                 message.channel.send(
                   `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente amanhã!`

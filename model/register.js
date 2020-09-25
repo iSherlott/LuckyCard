@@ -12,14 +12,13 @@ const Register = new Schema({
   card: [],
   emblem: [],
   daily: {
-    type: String,
+    type: Number,
   },
   update: {
-    type: String,
-    default: "Não atualizado",
+    type: Number,
   },
   date: {
-    type: String,
+    type: Number,
   },
 });
 
