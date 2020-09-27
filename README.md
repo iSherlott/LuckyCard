@@ -1,4 +1,4 @@
-﻿<h1>LuckyBox de cartas de animes (Exclusivo para bot do Discord)</h1>
+﻿<h2>LuckyBox de cartas de animes (Exclusivo para bot do Discord)</h2>
 
 ### Comandos
 
@@ -20,7 +20,8 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 1.1.8 - Comando EraseBook criado com sucesso
+versão 1.1.9 - Atualização do README <br />
+versão 1.1.8 - Comando EraseBook criado com sucesso <br />
 versão 1.1.7 - Update ativado com TimeStrap e corrigido erros do ai!Sub <br />
 versão 1.1.6 - Atualização do README <br />
 versão 1.1.5 - Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
