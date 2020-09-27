@@ -399,6 +399,31 @@ client.on("message", async (message) => {
             }
 
             break;
+
+          case config.prefix + "add":
+            let value = parseInt(opc[1]);
+            let user = opc[2].slice(3, 21);
+
+            Register.findOne({ id: user }).then((profiler) => {
+              if (profiler) {
+                if (value >= 0) {
+                  profiler.wallet += value;
+
+                  Register(profiler)
+                    .save()
+                    .then(() => {
+                      message.channel.send(
+                        `Valor de ${value} ${config.moeda} adicionada com sucesso na conta do ${opc[2]}`
+                      );
+                    });
+                } else {
+                  message.channel.send(`Valor digitado invalido.`);
+                }
+              } else {
+                message.channel.send(`Usuario ${opc[2]} não localizado.`);
+              }
+            });
+            break;
         }
       }
     }

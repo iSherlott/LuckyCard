@@ -12,9 +12,14 @@ ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 moedas
 ai!Config - Configura o bot para responder somente na sala que foi gerado esse comando. <br />
 ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerado esse comando. <br />
 
+<i>Esses comandos são aplicado somente quem tem autorização de nível 3</i> <br />
+ai!CreateBook - Cria todos os Book no bancos de dados.
+ai!Add - Adiciona moedas a um jogador cadastrado (Comando Valor Player)
+
 ### Notas de atualizações:
 
-versão 1.1.3 - Atualização do README
+versão 1.1.4 - Comando para Adicionar moedas (Autenticação de Nível 3) <br />
+versão 1.1.3 - Atualização do README <br />
 versão 1.1.2 - Comando Buy operante, Mudanças de todos os date para TimeStamp <br />
 versão 1.1.1 - Mudança do Daily para TimeStamp. <br />
 versão 1.1.0 - Atualização no comando Daily. <br />
