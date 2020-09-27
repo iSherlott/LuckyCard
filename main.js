@@ -30,6 +30,7 @@ client.on("message", async (message) => {
   if (auth.noBot() == true) {
     let opc = auth.opc();
 
+    //Comandos GM
     switch (opc[0]) {
       case config.prefix + "config":
         if (auth.checkGM() == true) {
@@ -140,7 +141,6 @@ client.on("message", async (message) => {
 
                 buy.searchBook().then((arraybook) => {
                   let number = buy.discoveryCard();
-                  console.log(number);
                   switch (number) {
                     case "cardR":
                       Book.findOne({ name: arraybook.name }).then((book) => {
@@ -329,7 +329,9 @@ client.on("message", async (message) => {
         case config.prefix + "commandgm":
           const commandgm = new Discord.MessageEmbed()
             .setTitle("Comandos GM")
-            .setDescription(`Createbook - Regaz todos os Book\n\n\n`)
+            .setDescription(
+              `Config - Configura o bot para responder somente na sala que foi gerado esse comando.\n  ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerado esse comando.\n\n\n`
+            )
             .setColor("#8A2BE2")
             .setFooter(
               `Dica: Utilize o prefixo ${config.prefix} para executar os comandos.`
@@ -338,7 +340,7 @@ client.on("message", async (message) => {
           break;
       }
 
-      //Comandos GM
+      //Comandos Level3
       if (auth.authLevel3() == true) {
         switch (opc[0]) {
           case config.prefix + "createbook":
@@ -408,6 +410,7 @@ client.on("message", async (message) => {
               if (profiler) {
                 if (value >= 0) {
                   profiler.wallet += value;
+                  profiler.update = new Date().getTime();
 
                   Register(profiler)
                     .save()
@@ -426,21 +429,28 @@ client.on("message", async (message) => {
             break;
 
           case config.prefix + "sub":
-            let value = parseInt(opc[1]);
-            let user = opc[2].slice(3, 21);
-
-            Register.findOne({ id: user }).then((profiler) => {
+            let valueSub = parseInt(opc[1]);
+            let userSub = opc[2].slice(3, 21);
+            Register.findOne({ id: userSub }).then((profiler) => {
               if (profiler) {
-                if (value <= 0) {
-                  profiler.wallet -= value;
+                if (valueSub >= 0 && valueSub <= profiler.wallet) {
+                  profiler.wallet -= valueSub;
+                  profiler.update = new Date().getTime();
 
                   Register(profiler)
                     .save()
                     .then(() => {
                       message.channel.send(
-                        `Valor de ${value} ${config.moeda} subtraido com sucesso na conta do ${opc[2]}`
+                        `Valor de ${valueSub} ${config.moeda} subtraido com sucesso na conta do ${opc[2]}`
                       );
+                    })
+                    .catch((err) => {
+                      message.channel.send(`012 - Erro interno: ${err}`);
                     });
+                } else if (profiler.wallet) {
+                  message.channel.send(
+                    `O valor a ser retirado é supeior a o valor que há na conta.`
+                  );
                 } else {
                   message.channel.send(`Valor digitado invalido.`);
                 }

@@ -19,6 +19,7 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 1.1.7 - Update ativado com TimeStrap e corrigido erros do ai!Sub <br />
 versão 1.1.6 - Atualização do README <br />
 versão 1.1.5 - ai!Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
 versão 1.1.4 - ai!Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
