@@ -1,6 +1,6 @@
 module.exports = loli = {
   bookOn: true,
-  name: "loli",
+  name: "Loli",
   id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   card: [
     "Kobato Hasegawa",
@@ -50,5 +50,5 @@ module.exports = loli = {
     "[R]",
     "[R]",
   ],
-  date: new Date(),
+  date: new Date().getTime(),
 };

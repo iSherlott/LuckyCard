@@ -1,6 +1,6 @@
 module.exports = trap = {
   bookOn: true,
-  name: "trap",
+  name: "Trap",
   id: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   card: [
     "Luka Urushibara",
@@ -49,5 +49,5 @@ module.exports = trap = {
     "[R]",
     "[R]",
   ],
-  date: new Date(),
+  date: new Date().getTime(),
 };

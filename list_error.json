@@ -8,5 +8,6 @@
   "007 - Erro interno": "Erro ao registar novo usuario",
   "008 - Erro interno": "Erro ao configurar Servidor",
   "009 - Erro interno": "Erro ao adicionar nova sala",
-  "010 - Erro interno": "Erro ao salvar o novo valor do daily"
+  "010 - Erro interno": "Erro ao salvar o novo valor do daily",
+  "011 - Erro interno": "Erro case com tipos de carta não localizado"
 }

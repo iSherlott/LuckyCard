@@ -6,6 +6,7 @@ const connectDB = require("./config/connection");
 connectDB();
 
 const Auth = require("./help/Auth");
+const Buy = require("./help/Buy");
 
 const config = require("./config/config.json");
 const { profile } = require("console");
@@ -119,13 +120,163 @@ client.on("message", async (message) => {
           break;
 
         case config.prefix + "wallet":
-          Register.findOne({ id: message.author.id }).then((Profiler) => {
-            if (!Profiler) {
+          Register.findOne({ id: message.author.id }).then((profiler) => {
+            if (!profiler) {
               message.channel.send(`Primeiro você tem que abrir uma conta!`);
             } else {
               message.channel.send(
-                `Seu saldo é de: ${Profiler.wallet} ${config.moeda}`
+                `Seu saldo é de: ${profiler.wallet} ${config.moeda}`
               );
+            }
+          });
+          break;
+
+        case config.prefix + "buy":
+          Register.findOne({ id: message.author.id }).then((profiler) => {
+            if (profiler) {
+              if (profiler.wallet >= 50) {
+                profiler.wallet -= 50;
+                const buy = new Buy();
+
+                buy.searchBook().then((arraybook) => {
+                  let number = buy.discoveryCard();
+                  console.log(number);
+                  switch (number) {
+                    case "cardR":
+                      Book.findOne({ name: arraybook.name }).then((book) => {
+                        let indice = [0, 1, 3, 5, 8, 9];
+                        indice =
+                          indice[Math.floor(Math.random() * indice.length)];
+
+                        let cont = 0;
+                        for (let key in profiler.card) {
+                          if (profiler.card[key].name == book.card[indice]) {
+                            cont += 1;
+                          }
+                        }
+
+                        if (cont == 0) {
+                          profiler.card.push({
+                            name: book.card[indice],
+                            amount: 1,
+                          });
+                        } else {
+                          for (let key in profiler.card) {
+                            if (profiler.card[key].name == book.card[indice]) {
+                              profiler.card[key].amount += 1;
+                            }
+                          }
+                        }
+
+                        Register(profiler)
+                          .save()
+                          .then(() => {
+                            message.channel.send(
+                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
+                              {
+                                files: [
+                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
+                                ],
+                              }
+                            );
+                          });
+                      });
+                      break;
+
+                    case "cardSR":
+                      Book.findOne({ name: arraybook.name }).then((book) => {
+                        let indice = [2, 4, 6];
+                        indice =
+                          indice[Math.floor(Math.random() * indice.length)];
+
+                        let cont = 0;
+                        for (let key in profiler.card) {
+                          if (profiler.card[key].name == book.card[indice]) {
+                            cont += 1;
+                          }
+                        }
+
+                        if (cont == 0) {
+                          profiler.card.push({
+                            name: book.card[indice],
+                            amount: 1,
+                          });
+                        } else {
+                          for (let key in profiler.card) {
+                            if (profiler.card[key].name == book.card[indice]) {
+                              profiler.card[key].amount += 1;
+                            }
+                          }
+                        }
+
+                        Register(profiler)
+                          .save()
+                          .then(() => {
+                            message.channel.send(
+                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
+                              {
+                                files: [
+                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
+                                ],
+                              }
+                            );
+                          });
+                      });
+                      break;
+
+                    case "cardUR":
+                      Book.findOne({ name: arraybook.name }).then((book) => {
+                        let indice = 7;
+
+                        let cont = 0;
+                        for (let key in profiler.card) {
+                          if (profiler.card[key].name == book.card[indice]) {
+                            cont += 1;
+                          }
+                        }
+
+                        if (cont == 0) {
+                          profiler.card.push({
+                            name: book.card[indice],
+                            amount: 1,
+                          });
+                        } else {
+                          for (let key in profiler.card) {
+                            if (profiler.card[key].name == book.card[indice]) {
+                              profiler.card[key].amount += 1;
+                            }
+                          }
+                        }
+
+                        Register(profiler)
+                          .save()
+                          .then(() => {
+                            message.channel.send(
+                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
+                              {
+                                files: [
+                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
+                                ],
+                              }
+                            );
+                          });
+                      });
+                      break;
+
+                    default:
+                      message.channel.send(
+                        `011 - Erro interno: Carta não localizada`
+                      );
+                      break;
+                  }
+                });
+              } else {
+                message.channel.send(
+                  `<@!${message.author.id}>, Seu saldo é insuficiente, seu saldo ${profile.wallet}`
+                );
+              }
+            } else {
+              message.channel.send(`Primeiro você tem que abrir uma conta!`);
             }
           });
           break;
@@ -149,11 +300,8 @@ client.on("message", async (message) => {
                   });
               } else if (profiler.date + 86400000 >= new Date().getTime()) {
                 message.channel.send(
-                  `<@!${message.author.id}>, Seu daily só estará habilitado a partir de amanhã`
+                  `<@!${message.author.id}>, Seu daily só estará habilitado dentre 24h`
                 );
-                let date = profiler.date + 86400000;
-                console.log(date);
-                console.log(new Date(date));
               } else {
                 message.channel.send(
                   `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente amanhã!`
@@ -169,7 +317,7 @@ client.on("message", async (message) => {
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
             .setDescription(
-              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 500 moedas diariamente \n\n\n`
+              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 500 moedas diariamente\n Buy - Compra 1 pacote de cartas\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(
@@ -196,7 +344,7 @@ client.on("message", async (message) => {
           case config.prefix + "createbook":
             let cont = 0;
             //bookloli
-            Book.find({ name: "loli" }).then((loli) => {
+            Book.find({ name: "Loli" }).then((loli) => {
               if (loli.length <= 0) {
                 const bookloli = require("./db/Book_Loli/bookLoli");
                 new Book(bookloli).save().catch((err) => {
@@ -206,7 +354,7 @@ client.on("message", async (message) => {
               }
             });
             //booktrap
-            Book.find({ name: "trap" }).then((trap) => {
+            Book.find({ name: "Trap" }).then((trap) => {
               if (trap.length <= 0) {
                 const booktrap = require("./db/Book_Trap/bookTrap");
                 new Book(booktrap).save().catch((err) => {
@@ -216,7 +364,7 @@ client.on("message", async (message) => {
               }
             });
             //bookecchi
-            Book.find({ name: "ecchi" }).then((ecchi) => {
+            Book.find({ name: "Ecchi" }).then((ecchi) => {
               if (ecchi.length <= 0) {
                 const bookecchi = require("./db/Book_Ecchi/bookEcchi");
                 new Book(bookecchi).save().catch((err) => {
@@ -226,7 +374,7 @@ client.on("message", async (message) => {
               }
             });
             //bookhentai
-            Book.find({ name: "hentai" }).then((hentai) => {
+            Book.find({ name: "Hentai" }).then((hentai) => {
               if (hentai.length <= 0) {
                 const bookhentai = require("./db/Book_Hentai/bookHentai");
                 new Book(bookhentai).save().catch((err) => {
@@ -236,9 +384,9 @@ client.on("message", async (message) => {
               }
             });
             //mahoushoujo
-            Book.find({ name: "mahoushoujo" }).then((mahoushoujo) => {
+            Book.find({ name: "MahouShoujo" }).then((mahoushoujo) => {
               if (mahoushoujo.length <= 0) {
-                const bookmahoushoujo = require("./db/Book_Mahou_Shojo/bookMahouShoujo");
+                const bookmahoushoujo = require("./db/Book_MahouShoujo/bookMahouShoujo");
                 new Book(bookmahoushoujo).save().catch((err) => {
                   cont += 1;
                   message.channel.send(`006 - Erro interno: ${err}`);

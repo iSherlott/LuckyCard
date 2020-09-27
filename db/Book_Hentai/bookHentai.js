@@ -1,6 +1,6 @@
 module.exports = hentai = {
   bookOn: true,
-  name: "hentai",
+  name: "Hentai",
   id: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
   card: [
     "Yura Kawada",
@@ -50,5 +50,5 @@ module.exports = hentai = {
     "[R]",
     "[R]",
   ],
-  date: new Date(),
+  date: new Date().getTime(),
 };

@@ -1,6 +1,6 @@
 module.exports = mahouShoujo = {
   bookOn: true,
-  name: "mahoushoujo",
+  name: "MahouShoujo",
   id: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
   card: [
     "Nagisa Misumi",
@@ -50,5 +50,5 @@ module.exports = mahouShoujo = {
     "[R]",
     "[R]",
   ],
-  date: new Date(),
+  date: new Date().getTime(),
 };
