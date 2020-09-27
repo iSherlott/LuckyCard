@@ -1,4 +1,4 @@
-﻿#LuckyBox de cartas de animes (Exclusivo para bot do Discord)
+﻿<h1>LuckyBox de cartas de animes (Exclusivo para bot do Discord)</h1>
 
 ### Comandos
 
@@ -14,15 +14,17 @@ ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerad
 
 <i>Esses comandos são aplicado somente quem tem autorização de nível 3</i> <br />
 ai!CreateBook - Cria todos os Book no bancos de dados. <br />
+ai!EraseBook - Deleta todos os book do banco de dados. <br />
 ai!Add - Adiciona moedas a um jogador cadastrado (Comando Valor Player) <br />
 ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 1.1.8 - Comando EraseBook criado com sucesso
 versão 1.1.7 - Update ativado com TimeStrap e corrigido erros do ai!Sub <br />
 versão 1.1.6 - Atualização do README <br />
-versão 1.1.5 - ai!Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
-versão 1.1.4 - ai!Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
+versão 1.1.5 - Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
+versão 1.1.4 - Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
 versão 1.1.3 - Atualização do README <br />
 versão 1.1.2 - Comando Buy operante, Mudanças de todos os date para TimeStamp <br />
 versão 1.1.1 - Mudança do Daily para TimeStamp. <br />

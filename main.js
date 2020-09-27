@@ -402,6 +402,12 @@ client.on("message", async (message) => {
 
             break;
 
+          case config.prefix + "erasebook":
+            Book.deleteMany().then(() => {
+              message.channel.send(`Todos os book foram apagado com sucesso.`);
+            });
+            break;
+
           case config.prefix + "add":
             let value = parseInt(opc[1]);
             let user = opc[2].slice(3, 21);
