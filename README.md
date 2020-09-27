@@ -6,6 +6,7 @@
 ai!Register - Se cadastra no jogo. <br />
 ai!Daily - Obtem 500 moedas diariamente. <br />
 ai!Wallet - Exibe o saldo da conta do usuario que executou o comando. <br />
+ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 moedas <br />
 
 <i>Esses comandos são para configurar o Bot e só o Dono do servidor tem permissão de uso:</i> <br />
 ai!Config - Configura o bot para responder somente na sala que foi gerado esse comando. <br />
@@ -13,7 +14,8 @@ ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerad
 
 ### Notas de atualizações:
 
-versão 1.1.2 - Comando buy operante, Mudanças de todos os date para TimeStamp <br />
+versão 1.1.3 - Atualização do README
+versão 1.1.2 - Comando Buy operante, Mudanças de todos os date para TimeStamp <br />
 versão 1.1.1 - Mudança do Daily para TimeStamp. <br />
 versão 1.1.0 - Atualização no comando Daily. <br />
 
