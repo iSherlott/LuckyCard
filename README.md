@@ -15,10 +15,12 @@ ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerad
 <i>Esses comandos são aplicado somente quem tem autorização de nível 3</i> <br />
 ai!CreateBook - Cria todos os Book no bancos de dados.
 ai!Add - Adiciona moedas a um jogador cadastrado (Comando Valor Player)
+ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player)
 
 ### Notas de atualizações:
 
-versão 1.1.4 - Comando para Adicionar moedas (Autenticação de Nível 3) <br />
+versão 1.1.4 - ai!Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
+versão 1.1.4 - ai!Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
 versão 1.1.3 - Atualização do README <br />
 versão 1.1.2 - Comando Buy operante, Mudanças de todos os date para TimeStamp <br />
 versão 1.1.1 - Mudança do Daily para TimeStamp. <br />
