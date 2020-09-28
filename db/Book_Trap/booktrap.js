@@ -27,7 +27,7 @@ module.exports = trap = {
   ],
   cardURL: [
     "/Luka_Urushibara.png",
-    "/Gasper Vladi.png",
+    "/Gasper_Vladi.png",
     "/Hideri_Kanzaki.png",
     "/Saika_Totsuka.png",
     "/Felix_Argyle.png",

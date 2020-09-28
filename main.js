@@ -10,6 +10,7 @@ const Buy = require("./help/Buy");
 
 const config = require("./config/config.json");
 const { profile } = require("console");
+const { date } = require("./db/Book_Loli/bookLoli");
 
 require("./model/book");
 const Book = mongoose.model("book");
@@ -33,7 +34,7 @@ client.on("message", async (message) => {
     //Comandos GM
     switch (opc[0]) {
       case config.prefix + "config":
-        if (auth.checkGM() == true) {
+        if (auth.checkGM() == true || auth.authLevel3() == true) {
           Setting.findOne({ serverID: message.guild.id }).then((setting) => {
             if (!setting) {
               const signUpServer = {
@@ -126,7 +127,7 @@ client.on("message", async (message) => {
               message.channel.send(`Primeiro você tem que abrir uma conta!`);
             } else {
               message.channel.send(
-                `Seu saldo é de: ${profiler.wallet} ${config.moeda}`
+                `<@!${message.author.id}>, Seu saldo é de: ${profiler.wallet} ${config.moeda}`
               );
             }
           });
@@ -272,7 +273,7 @@ client.on("message", async (message) => {
                 });
               } else {
                 message.channel.send(
-                  `<@!${message.author.id}>, Seu saldo é insuficiente, seu saldo ${profile.wallet}`
+                  `<@!${message.author.id}>, Seu saldo é insuficiente`
                 );
               }
             } else {
@@ -299,18 +300,61 @@ client.on("message", async (message) => {
                     message.channel.send(`010 - Erro interno: ${err}`);
                   });
               } else if (profiler.date + 86400000 >= new Date().getTime()) {
+                let data = new Date(profiler.daily);
+                let day = data.getDate().toString();
+                let month = (data.getMonth() + 1).toString();
+                let year = data.getFullYear();
+                let hour =
+                  data.getHours() +
+                  ":" +
+                  data.getMinutes() +
+                  ":" +
+                  data.getSeconds();
                 message.channel.send(
-                  `<@!${message.author.id}>, Seu daily só estará habilitado dentre 24h`
+                  `<@!${message.author.id}>, Seu daily só estará habilitado depois do dia ${day}/${month}/${year} ás ${hour}`
                 );
               } else {
+                let data = new Date(profiler.daily);
+                let day = data.getDate().toString();
+                let month = (data.getMonth() + 1).toString();
+                let year = data.getFullYear();
+                let hour =
+                  data.getHours() +
+                  ":" +
+                  data.getMinutes() +
+                  ":" +
+                  data.getSeconds();
                 message.channel.send(
-                  `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente amanhã!`
+                  `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente depois de ${day}/${month}/${year} ás ${hour}`
                 );
               }
             } else {
               message.channel.send(`Primeiro você tem que abrir uma conta!`);
             }
           });
+          break;
+
+        case config.prefix + "rank":
+          Register.find()
+            .sort({ count: "desc" })
+            .limit(10)
+            .then((rank) => {
+              const rankEmbed = new Discord.MessageEmbed()
+                .setTitle("Top Rank de quem tem mais carta!")
+                .setDescription(`Esse é o rank geral de cartas`)
+                .setColor("#9781b1")
+                .setFooter(
+                  `Esse é o top rank com mais cartas no geral, sem repetir.`
+                );
+
+              for (let key in rank) {
+                rankEmbed.addFields({
+                  name: `Contendo ${rank[key].card.length} Cartas diferentes`,
+                  value: `Player: <@!${rank[key].id}>`,
+                });
+              }
+              message.channel.send(rankEmbed);
+            });
           break;
 
         case config.prefix + "help":

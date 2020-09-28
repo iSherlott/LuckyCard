@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const Register = new Schema({
   id: {
-    type: Number,
+    type: String,
   },
   wallet: {
     type: Number,

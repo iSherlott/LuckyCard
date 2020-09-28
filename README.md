@@ -20,12 +20,14 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 1.2.0 - Estruturando comando Rank, frase do Daily modificada, Register salvando ID como String. <br />
+
 versão 1.1.9 - Atualização do README <br />
 versão 1.1.8 - Comando EraseBook criado com sucesso <br />
 versão 1.1.7 - Update ativado com TimeStrap e corrigido erros do ai!Sub <br />
 versão 1.1.6 - Atualização do README <br />
-versão 1.1.5 - Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
-versão 1.1.4 - Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
+versão 1.1.5 - Comando Sub, Comando para Subtrair moedas (Autenticação de Nível 3) <br />
+versão 1.1.4 - Comando Add, Comando para Adicionar moedas (Autenticação de Nível 3) <br />
 versão 1.1.3 - Atualização do README <br />
 versão 1.1.2 - Comando Buy operante, Mudanças de todos os date para TimeStamp <br />
 versão 1.1.1 - Mudança do Daily para TimeStamp. <br />
