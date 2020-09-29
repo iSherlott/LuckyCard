@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-require("../model/book");
+require("../model/Book");
 const Book = mongoose.model("book");
 
 module.exports = class Buy {

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const authLevel3 = require("../config/authLevel3");
 const authGM = require("../config/authGM");
 
-require("../model/setting");
+require("../model/Setting");
 const Setting = mongoose.model("setting");
 
 module.exports = class Auth {

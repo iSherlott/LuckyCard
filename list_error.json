@@ -10,5 +10,6 @@
   "009 - Erro interno": "Erro ao adicionar nova sala",
   "010 - Erro interno": "Erro ao salvar o novo valor do daily",
   "011 - Erro interno": "Erro case com tipos de carta não localizado",
-  "012 - Erro interno": "Erro ao subtrair quantidade de valor a conta"
+  "012 - Erro interno": "Erro ao subtrair quantidade de valor a conta",
+  "013 - Erro interno": "Erro ao no trycapth do createbook"
 }

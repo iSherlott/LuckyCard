@@ -5,7 +5,8 @@
   "main": "main.js",
   "dependencies": {
     "discord.js": "^12.3.1",
-    "mongoose": "^5.10.6"
+    "mongoose": "^5.10.6",
+    "read-excel-file": "^4.0.7"
   },
   "devDependencies": {},
   "scripts": {

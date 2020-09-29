@@ -5,12 +5,22 @@ const Register = new Schema({
   id: {
     type: String,
   },
+  level: {
+    type: String,
+    default: "01",
+  },
+  exp: {
+    type: Number,
+    default: 0,
+  },
+  class: {
+    type: String,
+    default: "Novice",
+  },
   wallet: {
     type: Number,
     default: 500,
   },
-  card: [],
-  emblem: [],
   daily: {
     type: Number,
   },

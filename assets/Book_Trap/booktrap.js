@@ -23,6 +23,7 @@ module.exports = trap = {
     "Kuroshitsuji",
     "Himegoto",
     "Fate/Grand Order",
+    "Baka to Test to Shoukanjuu",
     "Assassination Classroom",
   ],
   cardURL: [

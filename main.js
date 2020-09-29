@@ -1,3 +1,4 @@
+const xlsxFile = require("read-excel-file/node");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
@@ -9,17 +10,18 @@ const Auth = require("./help/Auth");
 const Buy = require("./help/Buy");
 
 const config = require("./config/config.json");
-const { profile } = require("console");
-const { date } = require("./db/Book_Loli/bookLoli");
 
-require("./model/book");
+require("./model/Book");
 const Book = mongoose.model("book");
 
-require("./model/register");
+require("./model/Register");
 const Register = mongoose.model("register");
 
-require("./model/setting");
+require("./model/Setting");
 const Setting = mongoose.model("setting");
+
+require("./model/Card");
+const Card = mongoose.model("card");
 
 client.on("ready", () => {
   console.log("Seu dinheiro, meu sucesso!");
@@ -133,155 +135,6 @@ client.on("message", async (message) => {
           });
           break;
 
-        case config.prefix + "buy":
-          Register.findOne({ id: message.author.id }).then((profiler) => {
-            if (profiler) {
-              if (profiler.wallet >= 50) {
-                profiler.wallet -= 50;
-                const buy = new Buy();
-
-                buy.searchBook().then((arraybook) => {
-                  let number = buy.discoveryCard();
-                  switch (number) {
-                    case "cardR":
-                      Book.findOne({ name: arraybook.name }).then((book) => {
-                        let indice = [0, 1, 3, 5, 8, 9];
-                        indice =
-                          indice[Math.floor(Math.random() * indice.length)];
-
-                        let cont = 0;
-                        for (let key in profiler.card) {
-                          if (profiler.card[key].name == book.card[indice]) {
-                            cont += 1;
-                          }
-                        }
-
-                        if (cont == 0) {
-                          profiler.card.push({
-                            name: book.card[indice],
-                            amount: 1,
-                          });
-                        } else {
-                          for (let key in profiler.card) {
-                            if (profiler.card[key].name == book.card[indice]) {
-                              profiler.card[key].amount += 1;
-                            }
-                          }
-                        }
-
-                        Register(profiler)
-                          .save()
-                          .then(() => {
-                            message.channel.send(
-                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
-                              {
-                                files: [
-                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
-                                ],
-                              }
-                            );
-                          });
-                      });
-                      break;
-
-                    case "cardSR":
-                      Book.findOne({ name: arraybook.name }).then((book) => {
-                        let indice = [2, 4, 6];
-                        indice =
-                          indice[Math.floor(Math.random() * indice.length)];
-
-                        let cont = 0;
-                        for (let key in profiler.card) {
-                          if (profiler.card[key].name == book.card[indice]) {
-                            cont += 1;
-                          }
-                        }
-
-                        if (cont == 0) {
-                          profiler.card.push({
-                            name: book.card[indice],
-                            amount: 1,
-                          });
-                        } else {
-                          for (let key in profiler.card) {
-                            if (profiler.card[key].name == book.card[indice]) {
-                              profiler.card[key].amount += 1;
-                            }
-                          }
-                        }
-
-                        Register(profiler)
-                          .save()
-                          .then(() => {
-                            message.channel.send(
-                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
-                              {
-                                files: [
-                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
-                                ],
-                              }
-                            );
-                          });
-                      });
-                      break;
-
-                    case "cardUR":
-                      Book.findOne({ name: arraybook.name }).then((book) => {
-                        let indice = 7;
-
-                        let cont = 0;
-                        for (let key in profiler.card) {
-                          if (profiler.card[key].name == book.card[indice]) {
-                            cont += 1;
-                          }
-                        }
-
-                        if (cont == 0) {
-                          profiler.card.push({
-                            name: book.card[indice],
-                            amount: 1,
-                          });
-                        } else {
-                          for (let key in profiler.card) {
-                            if (profiler.card[key].name == book.card[indice]) {
-                              profiler.card[key].amount += 1;
-                            }
-                          }
-                        }
-
-                        Register(profiler)
-                          .save()
-                          .then(() => {
-                            message.channel.send(
-                              `Parabéns <@!${message.author.id}>, você conseguiu uma carta ${book.typeRare[indice]}.`,
-                              {
-                                files: [
-                                  `./db/Book_${arraybook.name}${book.cardURL[indice]}`,
-                                ],
-                              }
-                            );
-                          });
-                      });
-                      break;
-
-                    default:
-                      message.channel.send(
-                        `011 - Erro interno: Carta não localizada`
-                      );
-                      break;
-                  }
-                });
-              } else {
-                message.channel.send(
-                  `<@!${message.author.id}>, Seu saldo é insuficiente`
-                );
-              }
-            } else {
-              message.channel.send(`Primeiro você tem que abrir uma conta!`);
-            }
-          });
-          break;
-
         case config.prefix + "daily":
           Register.findOne({ id: message.author.id }).then((profiler) => {
             if (profiler) {
@@ -334,29 +187,6 @@ client.on("message", async (message) => {
           });
           break;
 
-        case config.prefix + "rank":
-          Register.find()
-            .sort({ count: "desc" })
-            .limit(10)
-            .then((rank) => {
-              const rankEmbed = new Discord.MessageEmbed()
-                .setTitle("Top Rank de quem tem mais carta!")
-                .setDescription(`Esse é o rank geral de cartas`)
-                .setColor("#9781b1")
-                .setFooter(
-                  `Esse é o top rank com mais cartas no geral, sem repetir.`
-                );
-
-              for (let key in rank) {
-                rankEmbed.addFields({
-                  name: `Contendo ${rank[key].card.length} Cartas diferentes`,
-                  value: `Player: <@!${rank[key].id}>`,
-                });
-              }
-              message.channel.send(rankEmbed);
-            });
-          break;
-
         case config.prefix + "help":
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
@@ -388,68 +218,49 @@ client.on("message", async (message) => {
       if (auth.authLevel3() == true) {
         switch (opc[0]) {
           case config.prefix + "createbook":
-            let cont = 0;
-            //bookloli
-            Book.find({ name: "Loli" }).then((loli) => {
-              if (loli.length <= 0) {
-                const bookloli = require("./db/Book_Loli/bookLoli");
-                new Book(bookloli).save().catch((err) => {
-                  cont += 1;
-                  message.channel.send(`002 - Erro interno: ${err}`);
-                });
-              }
-            });
-            //booktrap
-            Book.find({ name: "Trap" }).then((trap) => {
-              if (trap.length <= 0) {
-                const booktrap = require("./db/Book_Trap/bookTrap");
-                new Book(booktrap).save().catch((err) => {
-                  cont += 1;
-                  message.channel.send(`003 - Erro interno: ${err}`);
-                });
-              }
-            });
-            //bookecchi
-            Book.find({ name: "Ecchi" }).then((ecchi) => {
-              if (ecchi.length <= 0) {
-                const bookecchi = require("./db/Book_Ecchi/bookEcchi");
-                new Book(bookecchi).save().catch((err) => {
-                  cont += 1;
-                  message.channel.send(`004 - Erro interno: ${err}`);
-                });
-              }
-            });
-            //bookhentai
-            Book.find({ name: "Hentai" }).then((hentai) => {
-              if (hentai.length <= 0) {
-                const bookhentai = require("./db/Book_Hentai/bookHentai");
-                new Book(bookhentai).save().catch((err) => {
-                  cont += 1;
-                  message.channel.send(`005 - Erro interno: ${err}`);
-                });
-              }
-            });
-            //mahoushoujo
-            Book.find({ name: "MahouShoujo" }).then((mahoushoujo) => {
-              if (mahoushoujo.length <= 0) {
-                const bookmahoushoujo = require("./db/Book_MahouShoujo/bookMahouShoujo");
-                new Book(bookmahoushoujo).save().catch((err) => {
-                  cont += 1;
-                  message.channel.send(`006 - Erro interno: ${err}`);
-                });
-              }
-            });
+            try {
+              Book.deleteMany({}, () => {});
+              Card.deleteMany({}, () => {});
 
-            if (cont == 0) {
-              message.channel.send("Todos os books criado com sucesso!");
+              Book.insertMany([
+                { bookName: "Loli" },
+                { bookName: "Trap" },
+                { bookName: "Ecchi" },
+                { bookName: "Hentai" },
+                { bookName: "MahouShoujo" },
+              ]);
+
+              xlsxFile("./assets/book.xlsx").then((rows) => {
+                for (let index = 1; index <= rows.length - 1; index++) {
+                  Book.findOne({ bookName: rows[index][4] }).then((book) => {
+                    const card = {
+                      book_id: book._id,
+                      cardName: rows[index][0],
+                      anime: rows[index][1],
+                      cardURL: rows[index][2],
+                      typeRare: rows[index][3],
+                    };
+
+                    Card(card).save();
+                  });
+                }
+              });
+
+              message.channel.send(
+                `Todos os books e card foram criado com sucesso!`
+              );
+            } catch (error) {
+              message.channel.send(`013 - Erro interno: ${error}`);
             }
 
             break;
 
           case config.prefix + "erasebook":
-            Book.deleteMany().then(() => {
-              message.channel.send(`Todos os book foram apagado com sucesso.`);
-            });
+            Book.deleteMany();
+            Card.deleteMany({});
+            message.channel.send(
+              `Todos os books e card foram apagadas com sucesso!`
+            );
             break;
 
           case config.prefix + "add":

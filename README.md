@@ -20,7 +20,9 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 1.2.0 - Estruturando comando Rank, frase do Daily modificada, Register salvando ID como String. <br />
+versão 2.0.0 - Comandos Rank e Buy deletado, banco restruturado.<br /><br />
+
+versão 1.2.0 - Estruturando comando Rank, frase do Daily modificada, Register salvando ID como String. <br /><br />
 
 versão 1.1.9 - Atualização do README <br />
 versão 1.1.8 - Comando EraseBook criado com sucesso <br />
@@ -44,3 +46,6 @@ Versão 1.0.3 - Comando Wallet operante. <br />
 Versão 1.0.2 - Indicadores de configuração operante. <br />
 Versão 1.0.1 - Banco de dados estruturado junto com base do jogo. <br />
 Versão 1.0.0 - Estrutura das pastas e arquivos. <br />
+
+<h1>Crditos:</h1>
+Etelhado
