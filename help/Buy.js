@@ -1,31 +1,55 @@
 const mongoose = require("mongoose");
+const connectDB = require("../config/connection");
+connectDB();
+
+require("../model/Register");
+const Register = mongoose.model("register");
 
 require("../model/Book");
 const Book = mongoose.model("book");
 
+require("../model/Card");
+const Card = mongoose.model("card");
+
 module.exports = class Buy {
-  constructor() {
-    this.number = parseFloat(Math.floor(Math.random() * 100));
-  }
+  constructor() {}
 
   async searchBook() {
-    let arraybook = [];
-    await Book.find({ bookOn: true })
-      .select("name")
-      .then((book) => {
-        arraybook = book[Math.floor(Math.random() * book.length)];
-      });
+    const numberRandom = await Book.find().countDocuments();
+    const numberBook = Math.floor(Math.random() * numberRandom);
+    const resultBook = await Book.findOne().skip(numberBook);
 
-    return arraybook;
+    return resultBook;
   }
 
-  discoveryCard() {
-    if (this.number >= 31 && this.number <= 100) {
-      return "cardR";
-    } else if (this.number >= 2 && this.number <= 30) {
-      return "cardSR";
-    } else if (this.number >= 0 && this.number <= 1) {
-      return "cardUR";
-    }
+  async typeSearch() {}
+
+  async card() {
+    const book = await this.searchBook();
+
+    const buy = await Card.aggregate([
+      {
+        $lookup: {
+          from: Book.collection.name,
+          localField: "book_id",
+          foreignField: "_id",
+          as: "book_id",
+        },
+      },
+      { $unwind: "$book_id" },
+      {
+        $project: {
+          _id: false,
+          cardName: "$cardName",
+          anime: "$anime",
+          cardURL: "$cardURL",
+          typeRare: "$typeRare",
+          book_id: "$book_id.bookName",
+        },
+      },
+      { $match: { book_id: book.bookName, typeRare: "[UR]" } },
+    ]);
+
+    return buy;
   }
 };

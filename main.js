@@ -187,6 +187,9 @@ client.on("message", async (message) => {
           });
           break;
 
+        case config.prefix + "buy":
+          break;
+
         case config.prefix + "help":
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
