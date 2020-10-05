@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const connectDB = require("../config/connection");
-connectDB();
 
 require("../model/Register");
 const Register = mongoose.model("register");

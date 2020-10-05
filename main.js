@@ -17,11 +17,14 @@ const Book = mongoose.model("book");
 require("./model/Register");
 const Register = mongoose.model("register");
 
-require("./model/Setting");
-const Setting = mongoose.model("setting");
+require("./model/CardObtained");
+const CardObtained = mongoose.model("cardObtained");
 
 require("./model/Card");
 const Card = mongoose.model("card");
+
+require("./model/Setting");
+const Setting = mongoose.model("setting");
 
 client.on("ready", () => {
   console.log("Seu dinheiro, meu sucesso!");
@@ -188,6 +191,62 @@ client.on("message", async (message) => {
           break;
 
         case config.prefix + "buy":
+          Register.findOne({ id: message.author.id }).then((profiler) => {
+            if (profiler.wallet >= 50) {
+              profiler.wallet -= 50;
+
+              const buy = new Buy();
+
+              buy.card().then((buyCard) => {
+                CardObtained.findOne({
+                  id: message.author.id,
+                  cardName: buyCard.cardName,
+                }).then((card) => {
+                  if (card) {
+                    card.amount += 1;
+
+                    CardObtained(card)
+                      .save()
+                      .then(() => {
+                        message.channel.send(
+                          `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
+                          {
+                            files: [
+                              `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                            ],
+                          }
+                        );
+                      });
+                  } else {
+                    const newCard = {
+                      id: message.author.id,
+                      amount: 1,
+                      cardName: buyCard.cardName,
+                      typeRare: buyCard.typeRare,
+                      typeBook: buyCard.book_id,
+                    };
+
+                    new CardObtained(newCard).save().then(() => {
+                      message.channel.send(
+                        `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
+                        {
+                          files: [
+                            `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                          ],
+                        }
+                      );
+                    });
+                  }
+                });
+
+                Register(profiler).save();
+              });
+            } else {
+              message.channel.send(
+                `<@!${message.author.id}>, Seu saldo é insuficiente`
+              );
+            }
+          });
           break;
 
         case config.prefix + "help":

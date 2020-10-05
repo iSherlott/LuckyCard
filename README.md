@@ -20,7 +20,8 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 2.0.1 - Estruturado o comando Buy<br />
+versão 2.0.2 - Comando Buy Operante.<br />
+versão 2.0.1 - Estruturado o comando Buy.<br />
 versão 2.0.0 - Comandos Rank e Buy deletado, banco restruturado.<br />
 
 versão 1.2.0 - Estruturando comando Rank, frase do Daily modificada, Register salvando ID como String. <br />
@@ -48,5 +49,5 @@ Versão 1.0.2 - Indicadores de configuração operante. <br />
 Versão 1.0.1 - Banco de dados estruturado junto com base do jogo. <br />
 Versão 1.0.0 - Estrutura das pastas e arquivos. <br />
 
-<h1>Crditos:</h1>
-Etelhado
+<h1>Creditos:</h1>
+<a href="https://gitlab.com/etelhado">Etelhado</a>
