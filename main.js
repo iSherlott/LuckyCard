@@ -8,6 +8,7 @@ connectDB();
 
 const Auth = require("./help/Auth");
 const Buy = require("./help/Buy");
+const SearchCard = require("./help/SearchCard");
 
 const config = require("./config/config.json");
 
@@ -244,6 +245,36 @@ client.on("message", async (message) => {
             } else {
               message.channel.send(
                 `<@!${message.author.id}>, Seu saldo é insuficiente`
+              );
+            }
+          });
+          break;
+
+        case config.prefix + "list":
+          let searchCard = new SearchCard();
+          searchCard.book(message.author.id, opc[1]).then((dateRank) => {
+            if (dateRank.length > 0) {
+              const dateTop = new Discord.MessageEmbed()
+                .setAuthor(
+                  message.author.username,
+                  `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}`
+                )
+                .setTitle(`Lista de cartas do book ${opc[1]}`)
+                .setColor("#8A2BE2")
+                .setFooter(
+                  `Você possue ${dateRank.length}/10 cartas do book ${opc[1]} `
+                );
+              dateRank.forEach((element) => {
+                dateTop.addField(
+                  element.typeRare + " " + element.cardName,
+                  element.amount + "x Exemplares"
+                );
+              });
+
+              message.channel.send(dateTop);
+            } else {
+              message.channel.send(
+                `<@!${message.author.id}>, Você não tem cartas desse book`
               );
             }
           });

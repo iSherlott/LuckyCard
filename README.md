@@ -4,6 +4,7 @@
 
 <i>Esse são os comandos padrões do bot:</i> <br />
 ai!Register - Se cadastra no jogo. <br />
+ai!List "book" - Para verificar todas as cartas que tem do book informado. <br />
 ai!Daily - Obtem 500 moedas diariamente. <br />
 ai!Wallet - Exibe o saldo da conta do usuario que executou o comando. <br />
 ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 moedas <br />
@@ -20,7 +21,8 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 2.0.2 - Comando Buy Operante.<br />
+versão 2.0.3 - Comando List operante.<br />
+versão 2.0.2 - Comando Buy operante.<br />
 versão 2.0.1 - Estruturado o comando Buy.<br />
 versão 2.0.0 - Comandos Rank e Buy deletado, banco restruturado.<br />
 
