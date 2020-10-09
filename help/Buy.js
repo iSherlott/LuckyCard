@@ -45,7 +45,6 @@ module.exports = class Buy {
         type = "[UR]";
         break;
     }
-
     return type;
   }
 
@@ -75,11 +74,11 @@ module.exports = class Buy {
       { $match: { book_id: book.bookName, typeRare: this.typeSearch() } },
     ]);
 
-    if (buy.length == 1) {
-      return buy;
-    } else {
+    if (buy.length >= 1) {
       const index = Math.floor(Math.random() * buy.length);
       return buy[index];
+    } else {
+      return buy;
     }
   }
 };
