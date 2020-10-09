@@ -12,6 +12,9 @@ const SearchCard = require("./help/SearchCard");
 
 const config = require("./config/config.json");
 
+require("./model/Log");
+const Log = mongoose.model("log");
+
 require("./model/Book");
 const Book = mongoose.model("book");
 
@@ -29,6 +32,7 @@ const Setting = mongoose.model("setting");
 
 client.on("ready", () => {
   console.log("Seu dinheiro, meu sucesso!");
+  client.user.setActivity(`"+comandos: ai!help"`);
 });
 
 client.on("message", async (message) => {
@@ -193,24 +197,44 @@ client.on("message", async (message) => {
 
         case config.prefix + "buy":
           Register.findOne({ id: message.author.id }).then((profiler) => {
-            if (profiler.wallet >= 50) {
-              profiler.wallet -= 50;
+            if (profiler) {
+              if (profiler.wallet >= 50) {
+                profiler.wallet -= 50;
 
-              const buy = new Buy();
+                const buy = new Buy();
 
-              buy.card().then((buyCard) => {
-                CardObtained.findOne({
-                  id: message.author.id,
-                  cardName: buyCard.cardName,
-                }).then((card) => {
-                  if (card) {
-                    card.amount += 1;
+                buy.card().then((buyCard) => {
+                  CardObtained.findOne({
+                    id: message.author.id,
+                    cardName: buyCard.cardName,
+                  }).then((card) => {
+                    if (card) {
+                      card.amount += 1;
 
-                    CardObtained(card)
-                      .save()
-                      .then(() => {
+                      CardObtained(card)
+                        .save()
+                        .then(() => {
+                          message.channel.send(
+                            `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
+                            {
+                              files: [
+                                `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                              ],
+                            }
+                          );
+                        });
+                    } else {
+                      const newCard = {
+                        id: message.author.id,
+                        amount: 1,
+                        cardName: buyCard.cardName,
+                        typeRare: buyCard.typeRare,
+                        typeBook: buyCard.book_id,
+                      };
+
+                      new CardObtained(newCard).save().then(() => {
                         message.channel.send(
-                          `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
+                          `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
                           {
                             files: [
                               `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
@@ -218,33 +242,19 @@ client.on("message", async (message) => {
                           }
                         );
                       });
-                  } else {
-                    const newCard = {
-                      id: message.author.id,
-                      amount: 1,
-                      cardName: buyCard.cardName,
-                      typeRare: buyCard.typeRare,
-                      typeBook: buyCard.book_id,
-                    };
+                    }
+                  });
 
-                    new CardObtained(newCard).save().then(() => {
-                      message.channel.send(
-                        `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
-                        {
-                          files: [
-                            `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
-                          ],
-                        }
-                      );
-                    });
-                  }
+                  Register(profiler).save();
                 });
-
-                Register(profiler).save();
-              });
+              } else {
+                message.channel.send(
+                  `<@!${message.author.id}>, Seu saldo é insuficiente`
+                );
+              }
             } else {
               message.channel.send(
-                `<@!${message.author.id}>, Seu saldo é insuficiente`
+                `<@!${message.author.id}>, Você primeiro tem que abri uma conta`
               );
             }
           });
@@ -284,7 +294,7 @@ client.on("message", async (message) => {
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
             .setDescription(
-              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 500 moedas diariamente\n Buy - Compra 1 pacote de cartas\n\n\n`
+              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 500 moedas diariamente\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n List "Nome do book" - exibe as cartas que você já obteve do book especifico\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(

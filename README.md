@@ -21,6 +21,7 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 2.0.5 - Erro do buy corrigido.<br />
 versão 2.0.4 - Lógica da carta UR arrumada.<br />
 versão 2.0.3 - Comando List operante.<br />
 versão 2.0.2 - Comando Buy operante.<br />
