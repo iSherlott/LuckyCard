@@ -27,6 +27,7 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 2.0.8 - Correção da exibição do TimeStrap do Daily.<br />
 versão 2.0.7 - Atualização no Readme.<br />
 versão 2.0.6 - 4 Novos Books acrescentado.<br />
 versão 2.0.5 - Erro do buy corrigido.<br />
@@ -76,7 +77,10 @@ Versão 1.0.0 - Estrutura das pastas e arquivos. <br />
 
 <h1>Creditos:</h1>
 <a href="https://gitlab.com/etelhado">Etelhado</a>
-
+<br />
+<br />
+<br />
 <p>Qualquer duvida enviar mensagem para o e-mail: Sherlott@live.com</p>
-
+<br />
+<br />
 <i>Copyleft – all rights reversed</i>

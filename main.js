@@ -161,30 +161,30 @@ client.on("message", async (message) => {
                     message.channel.send(`010 - Erro interno: ${err}`);
                   });
               } else if (profiler.date + 86400000 >= new Date().getTime()) {
-                let data = new Date(profiler.daily);
+                let data = new Date(profiler.daily + 86400000);
                 let day = data.getDate().toString();
                 let month = (data.getMonth() + 1).toString();
                 let year = data.getFullYear();
                 let hour =
-                  data.getHours() +
+                  ("00" + data.getHours()).slice(-2) +
                   ":" +
-                  data.getMinutes() +
+                  ("00" + data.getMinutes()).slice(-2) +
                   ":" +
-                  data.getSeconds();
+                  ("00" + data.getSeconds()).slice(-2);
                 message.channel.send(
                   `<@!${message.author.id}>, Seu daily só estará habilitado depois do dia ${day}/${month}/${year} ás ${hour}`
                 );
               } else {
-                let data = new Date(profiler.daily);
+                let data = new Date(profiler.daily + 86400000);
                 let day = data.getDate().toString();
                 let month = (data.getMonth() + 1).toString();
                 let year = data.getFullYear();
                 let hour =
-                  data.getHours() +
+                  ("00" + data.getHours()).slice(-2) +
                   ":" +
-                  data.getMinutes() +
+                  ("00" + data.getMinutes()).slice(-2) +
                   ":" +
-                  data.getSeconds();
+                  ("00" + data.getSeconds()).slice(-2);
                 message.channel.send(
                   `<@!${message.author.id}>, você já obteve o daily de hoje, tente novamente depois de ${day}/${month}/${year} ás ${hour}`
                 );
