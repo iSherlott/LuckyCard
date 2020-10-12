@@ -2,4 +2,3 @@ node_modules/
 config/config.json
 config/connection.js
 demo.js
-model/Log.js

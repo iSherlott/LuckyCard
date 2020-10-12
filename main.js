@@ -322,36 +322,46 @@ client.on("message", async (message) => {
         switch (opc[0]) {
           case config.prefix + "createbook":
             try {
-              Book.deleteMany({}, () => {});
-              Card.deleteMany({}, () => {});
+              Book.deleteMany({}, () => {
 
-              Book.insertMany([
-                { bookName: "Loli" },
-                { bookName: "Trap" },
-                { bookName: "Ecchi" },
-                { bookName: "Hentai" },
-                { bookName: "MahouShoujo" },
-              ]);
-
-              xlsxFile("./assets/book.xlsx").then((rows) => {
-                for (let index = 1; index <= rows.length - 1; index++) {
-                  Book.findOne({ bookName: rows[index][4] }).then((book) => {
-                    const card = {
-                      book_id: book._id,
-                      cardName: rows[index][0],
-                      anime: rows[index][1],
-                      cardURL: rows[index][2],
-                      typeRare: rows[index][3],
-                    };
-
-                    Card(card).save();
+                Card.deleteMany({}, () => {
+                  Book.insertMany([
+                    { bookName: "Loli" },
+                    { bookName: "Trap" },
+                    { bookName: "Ecchi" },
+                    { bookName: "Hentai" },
+                    { bookName: "MahouShoujo" },
+                    { bookName: "Shounen" },
+                    { bookName: "Romance" },
+                    { bookName: "Yuri" },
+                    { bookName: "Harem" },
+                  ]);
+    
+                  xlsxFile("./assets/book.xlsx").then((rows) => {
+                    for (let index = 1; index <= rows.length - 1; index++) {
+                      Book.findOne({ bookName: rows[index][4] }).then((book) => {
+                        const card = {
+                          book_id: book._id,
+                          cardName: rows[index][0],
+                          anime: rows[index][1],
+                          cardURL: rows[index][2],
+                          typeRare: rows[index][3],
+                        };
+    
+                        Card(card).save();
+                      });
+                    }
                   });
-                }
+
+                  message.channel.send(
+                    `Todos os books e card foram criado com sucesso!`
+                  );
+
+                });
               });
 
-              message.channel.send(
-                `Todos os books e card foram criado com sucesso!`
-              );
+              
+
             } catch (error) {
               message.channel.send(`013 - Erro interno: ${error}`);
             }
@@ -425,6 +435,32 @@ client.on("message", async (message) => {
             break;
         }
       }
+    }
+
+    if (auth.validation() == true && (await auth.validationChannel()) == true) {
+      //System Log
+      Log.findOne({
+        servidor_id: message.guild.id,
+        channel_id: message.channel.id,
+      }).then((log) => {
+        if (log) {
+          log.command.push([message.author.id, message.content, new Date()]);
+          Log(log).save();
+        } else {
+          const log = {
+            command: [],
+            servidor_id: message.guild.id,
+            servidor_Name: message.guild.name,
+            channel_id: message.channel.id,
+            game_master: message.guild.owner,
+            memberCount: message.guild.memberCount,
+            region: message.channel.region,
+          };
+          log.command.push([message.author.id, message.content, new Date()]),
+          Log(log).save();
+        }
+      });
+      //end System log
     }
   }
 });
