@@ -1,5 +1,11 @@
 ﻿<h2>LuckyBox de cartas de animes (Exclusivo para bot do Discord)</h2>
 
+<p>Bot interativo criado para entreter e mostra que você é um verdadeiro colecionador de cartas personalizada de anime, atualmente em desenvolvimento contudo com codigo 100% aberto sob copyleft.</p>
+
+<p>No game você tem que administra suas moedas para compra os bots pelo comando ai!buy e torcer para conseguir aquela carta que tanto procura e assim completar todas as 10 exemplares referente a coleção que está querendo completar.</p>
+
+<i>!!!Não há conteúdo +18 e não pretendo implementar tal recurso!!!</i>
+
 ### Comandos
 
 <i>Esse são os comandos padrões do bot:</i> <br />
@@ -21,6 +27,7 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 2.0.7 - Atualização no Readme.<br />
 versão 2.0.6 - 4 Novos Books acrescentado.<br />
 versão 2.0.5 - Erro do buy corrigido.<br />
 versão 2.0.4 - Lógica da carta UR arrumada.<br />
@@ -54,5 +61,22 @@ Versão 1.0.2 - Indicadores de configuração operante. <br />
 Versão 1.0.1 - Banco de dados estruturado junto com base do jogo. <br />
 Versão 1.0.0 - Estrutura das pastas e arquivos. <br />
 
+<h1>Link do bot:</h1>
+<a href="https://discord.com/api/oauth2/authorize?client_id=747247478276882483&permissions=8&scope=bot">Aisha Bot</a>
+
+## Como configurar:
+
+<p>Adicione o bot em seu servidor e de permissão de Administrador a ele, após isso, crie uma canal onde o bot ira escutar os comandos e responder, na canal criado o "dono" do servidor deverá executar o comando ai!config. se a mensagem "Bot configurado com sucesso" significa que a configuração está efetuada devidamente.</p>
+<br />
+<i>Recomendavel deixar a sala com delay de 5seg ou superior.</i>
+
+<h1>Servidores parceiros:</h1>
+<a href="https://discord.gg/2Sy8Dxx">My Home</a>
+<a href="https://discord.gg/pJkY9VY">Família NR</a>
+
 <h1>Creditos:</h1>
 <a href="https://gitlab.com/etelhado">Etelhado</a>
+
+<p>Qualquer duvida enviar mensagem para o e-mail: Sherlott@live.com</p>
+
+<i>Copyleft – all rights reversed</i>
