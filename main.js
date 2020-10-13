@@ -9,6 +9,7 @@ connectDB();
 const Auth = require("./help/Auth");
 const Buy = require("./help/Buy");
 const SearchCard = require("./help/SearchCard");
+const Rank = require("./help/Rank");
 
 const config = require("./config/config.json");
 
@@ -196,32 +197,38 @@ client.on("message", async (message) => {
           });
           break;
 
-          case config.prefix + "fortune":
-            Register.findOne({ id: message.author.id }).then((profiler) => {
-              if(profiler) {
-                if(profiler.fortune + 3600000 <= new Date().getTime()) {
-                  profiler.fortune = new Date().getTime()
-                  let number_random = Math.floor(Math.random() * 500)
-                  profiler.wallet += number_random
-  
-                  Register(profiler).save().then(() => {
-                    message.channel.send(`Parabéns <@!${message.author.id}>, Você acabou de ganhar: ${number_random} ${config.moeda}`)
-                  })
-                } else {
-                  let fortune = new Date(profiler.fortune + 3600000)
-                  let fortune_hour =
-                    ("00" + fortune.getHours()).slice(-2) +
-                    ":" +
-                    ("00" + fortune.getMinutes()).slice(-2) +
-                    ":" +
-                    ("00" + fortune.getSeconds()).slice(-2);
-                  message.channel.send(`<@!${message.author.id}>, você ainda está no intervalo de tempo, retorna somente depois das ${fortune_hour}`)
-                }
+        case config.prefix + "fortune":
+          Register.findOne({ id: message.author.id }).then((profiler) => {
+            if (profiler) {
+              if (profiler.fortune + 3600000 <= new Date().getTime()) {
+                profiler.fortune = new Date().getTime();
+                let number_random = Math.floor(Math.random() * 500);
+                profiler.wallet += number_random;
+
+                Register(profiler)
+                  .save()
+                  .then(() => {
+                    message.channel.send(
+                      `Parabéns <@!${message.author.id}>, Você acabou de ganhar: ${number_random} ${config.moeda}`
+                    );
+                  });
               } else {
-                message.channel.send(`Primeiro você tem que abrir uma conta!`)
+                let fortune = new Date(profiler.fortune + 3600000);
+                let fortune_hour =
+                  ("00" + fortune.getHours()).slice(-2) +
+                  ":" +
+                  ("00" + fortune.getMinutes()).slice(-2) +
+                  ":" +
+                  ("00" + fortune.getSeconds()).slice(-2);
+                message.channel.send(
+                  `<@!${message.author.id}>, você ainda está no intervalo de tempo, retorna somente depois das ${fortune_hour}`
+                );
               }
-            })
-            break;
+            } else {
+              message.channel.send(`Primeiro você tem que abrir uma conta!`);
+            }
+          });
+          break;
 
         case config.prefix + "buy":
           Register.findOne({ id: message.author.id }).then((profiler) => {
@@ -288,61 +295,42 @@ client.on("message", async (message) => {
           });
           break;
 
-          case config.prefix + "packbuy":
-            if (opc[1]) {
-              let text = opc[1];
-              let endText = "";
-              let textUpper = [...text];
-              textUpper[0] = textUpper[0].toUpperCase();
-              textUpper.forEach((element) => {
-                endText = endText + element;
-              });
-              if (endText == "Mahoushoujo") {
-                endText = "MahouShoujo";
-              }
-              let typebook = endText;
+        case config.prefix + "packbuy":
+          if (opc[1]) {
+            let text = opc[1];
+            let endText = "";
+            let textUpper = [...text];
+            textUpper[0] = textUpper[0].toUpperCase();
+            textUpper.forEach((element) => {
+              endText = endText + element;
+            });
+            if (endText == "Mahoushoujo") {
+              endText = "MahouShoujo";
+            }
+            let typebook = endText;
 
-              Book.find({ bookName: typebook }).then((bookValid) => {
-                if( bookValid.length > 0 ) {
-                  Register.findOne({ id: message.author.id }).then((profiler) => {
-                    if (profiler) {
-                      if (profiler.wallet >= 200) {
-                        profiler.wallet -= 200;
-        
-                        const buy = new Buy();
-        
-                        buy.specialCard(opc[1]).then((buyCard) => {
-                          CardObtained.findOne({
-                            id: message.author.id,
-                            cardName: buyCard.cardName,
-                          }).then((card) => {
-                            if (card) {
-                              card.amount += 1;
-        
-                              CardObtained(card)
-                                .save()
-                                .then(() => {
-                                  message.channel.send(
-                                    `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
-                                    {
-                                      files: [
-                                        `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
-                                      ],
-                                    }
-                                  );
-                                });
-                            } else {
-                              const newCard = {
-                                id: message.author.id,
-                                amount: 1,
-                                cardName: buyCard.cardName,
-                                typeRare: buyCard.typeRare,
-                                typeBook: buyCard.book_id,
-                              };
-        
-                              new CardObtained(newCard).save().then(() => {
+            Book.find({ bookName: typebook }).then((bookValid) => {
+              if (bookValid.length > 0) {
+                Register.findOne({ id: message.author.id }).then((profiler) => {
+                  if (profiler) {
+                    if (profiler.wallet >= 200) {
+                      profiler.wallet -= 200;
+
+                      const buy = new Buy();
+
+                      buy.specialCard(opc[1]).then((buyCard) => {
+                        CardObtained.findOne({
+                          id: message.author.id,
+                          cardName: buyCard.cardName,
+                        }).then((card) => {
+                          if (card) {
+                            card.amount += 1;
+
+                            CardObtained(card)
+                              .save()
+                              .then(() => {
                                 message.channel.send(
-                                  `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
+                                  `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
                                   {
                                     files: [
                                       `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
@@ -350,33 +338,52 @@ client.on("message", async (message) => {
                                   }
                                 );
                               });
-                            }
-                          });
-        
-                          Register(profiler).save();
+                          } else {
+                            const newCard = {
+                              id: message.author.id,
+                              amount: 1,
+                              cardName: buyCard.cardName,
+                              typeRare: buyCard.typeRare,
+                              typeBook: buyCard.book_id,
+                            };
+
+                            new CardObtained(newCard).save().then(() => {
+                              message.channel.send(
+                                `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
+                                {
+                                  files: [
+                                    `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                                  ],
+                                }
+                              );
+                            });
+                          }
                         });
-                      } else {
-                        message.channel.send(
-                          `<@!${message.author.id}>, Seu saldo é insuficiente`
-                        );
-                      }
+
+                        Register(profiler).save();
+                      });
                     } else {
                       message.channel.send(
-                        `<@!${message.author.id}>, Você primeiro tem que abri uma conta`
+                        `<@!${message.author.id}>, Seu saldo é insuficiente`
                       );
                     }
-                  });
-                } else {
-                  message.channel.send(
-                    `<@!${message.author.id}>, Não existe um book com esse nome: ${opc[1]}`
-                  );
-                }
-              })
-            } else {
-              message.channel.send(
-                `<@!${message.author.id}>, Você precisa informa qual book deseja compra!`
-              );
-            }
+                  } else {
+                    message.channel.send(
+                      `<@!${message.author.id}>, Você primeiro tem que abri uma conta`
+                    );
+                  }
+                });
+              } else {
+                message.channel.send(
+                  `<@!${message.author.id}>, Não existe um book com esse nome: ${opc[1]}`
+                );
+              }
+            });
+          } else {
+            message.channel.send(
+              `<@!${message.author.id}>, Você precisa informa qual book deseja compra!`
+            );
+          }
           break;
 
         case config.prefix + "list":
@@ -409,11 +416,117 @@ client.on("message", async (message) => {
           });
           break;
 
+        case config.prefix + "rank":
+          const rank = new Rank();
+
+          rank.rank().then((consultRank) => {
+            const rank_card = new Discord.MessageEmbed()
+              .setTitle("Top Rank Cartas")
+              .setColor("#8A2BE2").setDescription(`
+              #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
+              #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
+              #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
+              #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
+              #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
+              #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
+              #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
+              #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
+              #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
+              #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
+              `);
+            message.channel.send(rank_card);
+          });
+          break;
+
+        case config.prefix + "rankr":
+          const rankR = new Rank();
+
+          rankR.rankR().then((consultRank) => {
+            if (consultRank.length >= 10) {
+              const rank_cardR = new Discord.MessageEmbed()
+                .setTitle("Top Rank Cartas")
+                .setColor("#8A2BE2").setDescription(`
+                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
+                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
+                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
+                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
+                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
+                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
+                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
+                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
+                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
+                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
+                `);
+              message.channel.send(rank_cardR);
+            } else {
+              message.channel.send(
+                `Ainda não há quantidade minima de jogadores para exibir um rank`
+              );
+            }
+          });
+          break;
+
+        case config.prefix + "ranksr":
+          const rankSR = new Rank();
+
+          rankSR.rankSR().then((consultRank) => {
+            if (consultRank.length >= 10) {
+              const rank_cardSR = new Discord.MessageEmbed()
+                .setTitle("Top Rank Cartas")
+                .setColor("#8A2BE2").setDescription(`
+                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
+                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
+                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
+                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
+                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
+                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
+                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
+                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
+                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
+                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
+                `);
+              message.channel.send(rank_cardSR);
+            } else {
+              message.channel.send(
+                `Ainda não há quantidade minima de jogadores para exibir um rank`
+              );
+            }
+          });
+          break;
+
+        case config.prefix + "rankur":
+          const rankUR = new Rank();
+
+          rankUR.rankUR().then((consultRank) => {
+            if (consultRank.length >= 10) {
+              const rank_cardUR = new Discord.MessageEmbed()
+                .setTitle("Top Rank Cartas")
+                .setColor("#8A2BE2").setDescription(`
+                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
+                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
+                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
+                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
+                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
+                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
+                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
+                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
+                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
+                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
+                `);
+              message.channel.send(rank_cardUR);
+            } else {
+              message.channel.send(
+                `Ainda não há quantidade minima de jogadores para exibir um rank`
+              );
+            }
+          });
+          break;
+
         case config.prefix + "help":
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
             .setDescription(
-              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 1000 moedas diariamente\n Fortune - Obtem por hora um valor aleatório dentre 1 a 500\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n ai!PackBuy "book" - Compra um pack do book desejado no valor de 200 ${config.moeda}.\n List "Nome do book" - exibe as cartas que você já obteve do book especifico\n\n\n`
+              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 1000 moedas diariamente\n Fortune - Obtem por hora um valor aleatório dentre 1 a 500\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n PackBuy "book" - Compra um pack do book desejado no valor de 200 ${config.moeda}.\n List "Nome do book" - exibe as cartas que você já obteve do book especifico.\n Rank - Rank do top 10 cartas.\n RankR - Rank do top 10 cartas [R].\n RankSR - Rank do top 10 cartas [SR].\n RankUR - Rank do top 10 cartas [UR].\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(
@@ -426,7 +539,7 @@ client.on("message", async (message) => {
           const commandgm = new Discord.MessageEmbed()
             .setTitle("Comandos GM")
             .setDescription(
-              `Config - Configura o bot para responder somente na sala que foi gerado esse comando.\n  ai!Deconfigured - Retira a permissão de capturar comandos da sala que foi gerado esse comando.\n\n\n`
+              `Config - Configura o bot para responder somente na sala que foi gerado esse comando.\n  Deconfigured - Retira a permissão de capturar comandos da sala que foi gerado esse comando.\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(
@@ -442,7 +555,6 @@ client.on("message", async (message) => {
           case config.prefix + "createbook":
             try {
               Book.deleteMany({}, () => {
-
                 Card.deleteMany({}, () => {
                   Book.insertMany([
                     { bookName: "Loli" },
@@ -455,32 +567,30 @@ client.on("message", async (message) => {
                     { bookName: "Yuri" },
                     { bookName: "Harem" },
                   ]);
-    
+
                   xlsxFile("./assets/book.xlsx").then((rows) => {
                     for (let index = 1; index <= rows.length - 1; index++) {
-                      Book.findOne({ bookName: rows[index][4] }).then((book) => {
-                        const card = {
-                          book_id: book._id,
-                          cardName: rows[index][0],
-                          anime: rows[index][1],
-                          cardURL: rows[index][2],
-                          typeRare: rows[index][3],
-                        };
-    
-                        Card(card).save();
-                      });
+                      Book.findOne({ bookName: rows[index][4] }).then(
+                        (book) => {
+                          const card = {
+                            book_id: book._id,
+                            cardName: rows[index][0],
+                            anime: rows[index][1],
+                            cardURL: rows[index][2],
+                            typeRare: rows[index][3],
+                          };
+
+                          Card(card).save();
+                        }
+                      );
                     }
                   });
 
                   message.channel.send(
                     `Todos os books e card foram criado com sucesso!`
                   );
-
                 });
               });
-
-              
-
             } catch (error) {
               message.channel.send(`013 - Erro interno: ${error}`);
             }
@@ -576,7 +686,7 @@ client.on("message", async (message) => {
             region: message.channel.region,
           };
           log.command.push([message.author.id, message.content, new Date()]),
-          Log(log).save();
+            Log(log).save();
         }
       });
       //end System log
