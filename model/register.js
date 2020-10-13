@@ -9,6 +9,9 @@ const Register = new Schema({
     type: String,
     default: "01",
   },
+  fortune: {
+    type: Number,
+  },
   exp: {
     type: Number,
     default: 0,

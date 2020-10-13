@@ -114,6 +114,7 @@ client.on("message", async (message) => {
                 id: message.author.id,
                 update: 0,
                 daily: parseInt(new Date().getTime()),
+                fortune: parseInt(new Date().getTime()),
                 date: parseInt(new Date().getTime()),
               };
 
@@ -148,7 +149,7 @@ client.on("message", async (message) => {
             if (profiler) {
               if (profiler.daily + 86400000 <= new Date().getTime()) {
                 profiler.daily = new Date().getTime();
-                profiler.wallet += 500;
+                profiler.wallet += 1000;
 
                 Register(profiler)
                   .save()
@@ -194,6 +195,33 @@ client.on("message", async (message) => {
             }
           });
           break;
+
+          case config.prefix + "fortune":
+            Register.findOne({ id: message.author.id }).then((profiler) => {
+              if(profiler) {
+                if(profiler.fortune + 3600000 <= new Date().getTime()) {
+                  profiler.fortune = new Date().getTime()
+                  let number_random = Math.floor(Math.random() * 500)
+                  profiler.wallet += number_random
+  
+                  Register(profiler).save().then(() => {
+                    message.channel.send(`Parabéns <@!${message.author.id}>, Você acabou de ganhar: ${number_random} ${config.moeda}`)
+                  })
+                } else {
+                  let fortune = new Date(profiler.fortune + 3600000)
+                  let fortune_hour =
+                    ("00" + fortune.getHours()).slice(-2) +
+                    ":" +
+                    ("00" + fortune.getMinutes()).slice(-2) +
+                    ":" +
+                    ("00" + fortune.getSeconds()).slice(-2);
+                  message.channel.send(`<@!${message.author.id}>, você ainda está no intervalo de tempo, retorna somente depois das ${fortune_hour}`)
+                }
+              } else {
+                message.channel.send(`Primeiro você tem que abrir uma conta!`)
+              }
+            })
+            break;
 
         case config.prefix + "buy":
           Register.findOne({ id: message.author.id }).then((profiler) => {
@@ -260,6 +288,97 @@ client.on("message", async (message) => {
           });
           break;
 
+          case config.prefix + "packbuy":
+            if (opc[1]) {
+              let text = opc[1];
+              let endText = "";
+              let textUpper = [...text];
+              textUpper[0] = textUpper[0].toUpperCase();
+              textUpper.forEach((element) => {
+                endText = endText + element;
+              });
+              if (endText == "Mahoushoujo") {
+                endText = "MahouShoujo";
+              }
+              let typebook = endText;
+
+              Book.find({ bookName: typebook }).then((bookValid) => {
+                if( bookValid.length > 0 ) {
+                  Register.findOne({ id: message.author.id }).then((profiler) => {
+                    if (profiler) {
+                      if (profiler.wallet >= 200) {
+                        profiler.wallet -= 200;
+        
+                        const buy = new Buy();
+        
+                        buy.specialCard(opc[1]).then((buyCard) => {
+                          CardObtained.findOne({
+                            id: message.author.id,
+                            cardName: buyCard.cardName,
+                          }).then((card) => {
+                            if (card) {
+                              card.amount += 1;
+        
+                              CardObtained(card)
+                                .save()
+                                .then(() => {
+                                  message.channel.send(
+                                    `Parabéns <@!${message.author.id}>, Essa é a sua ${card.amount} carta ${buyCard.cardName}`,
+                                    {
+                                      files: [
+                                        `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                                      ],
+                                    }
+                                  );
+                                });
+                            } else {
+                              const newCard = {
+                                id: message.author.id,
+                                amount: 1,
+                                cardName: buyCard.cardName,
+                                typeRare: buyCard.typeRare,
+                                typeBook: buyCard.book_id,
+                              };
+        
+                              new CardObtained(newCard).save().then(() => {
+                                message.channel.send(
+                                  `<@!${message.author.id}>, Parabéns você obteve uma carta ${buyCard.typeRare}`,
+                                  {
+                                    files: [
+                                      `./assets/Book_${buyCard.book_id}${buyCard.cardURL}`,
+                                    ],
+                                  }
+                                );
+                              });
+                            }
+                          });
+        
+                          Register(profiler).save();
+                        });
+                      } else {
+                        message.channel.send(
+                          `<@!${message.author.id}>, Seu saldo é insuficiente`
+                        );
+                      }
+                    } else {
+                      message.channel.send(
+                        `<@!${message.author.id}>, Você primeiro tem que abri uma conta`
+                      );
+                    }
+                  });
+                } else {
+                  message.channel.send(
+                    `<@!${message.author.id}>, Não existe um book com esse nome: ${opc[1]}`
+                  );
+                }
+              })
+            } else {
+              message.channel.send(
+                `<@!${message.author.id}>, Você precisa informa qual book deseja compra!`
+              );
+            }
+          break;
+
         case config.prefix + "list":
           let searchCard = new SearchCard();
           searchCard.book(message.author.id, opc[1]).then((dateRank) => {
@@ -294,7 +413,7 @@ client.on("message", async (message) => {
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
             .setDescription(
-              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 500 moedas diariamente\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n List "Nome do book" - exibe as cartas que você já obteve do book especifico\n\n\n`
+              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 1000 moedas diariamente\n Fortune - Obtem por hora um valor aleatório dentre 1 a 500\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n ai!PackBuy "book" - Compra um pack do book desejado no valor de 200 ${config.moeda}.\n List "Nome do book" - exibe as cartas que você já obteve do book especifico\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(

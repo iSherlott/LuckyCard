@@ -10,10 +10,12 @@
 
 <i>Esse são os comandos padrões do bot:</i> <br />
 ai!Register - Se cadastra no jogo. <br />
-ai!List "book" - Para verificar todas as cartas que tem do book informado. <br />
-ai!Daily - Obtem 500 moedas diariamente. <br />
+ai!Fortune - Obtem por hora um valor aleatório dentre 1 a 500. <br />
+ai!Daily - Obtem 1000 moedas diariamente. <br />
 ai!Wallet - Exibe o saldo da conta do usuario que executou o comando. <br />
-ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 moedas <br />
+ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 Rubias. <br />
+ai!PackBuy "book" - Compra um pack do book desejado no valor de 200 Rubias. <br />
+ai!List "book" - Para verificar todas as cartas que tem do book informado. <br />
 
 <i>Esses comandos são para configurar o Bot e só o Dono do servidor tem permissão de uso:</i> <br />
 ai!Config - Configura o bot para responder somente na sala que foi gerado esse comando. <br />
@@ -27,6 +29,7 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
+versão 2.0.9 - Comando Fortune e comando PackBuy acrescentado.<br />
 versão 2.0.8 - Correção da exibição do TimeStrap do Daily.<br />
 versão 2.0.7 - Atualização no Readme.<br />
 versão 2.0.6 - 4 Novos Books acrescentado.<br />

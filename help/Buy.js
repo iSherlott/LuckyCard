@@ -14,6 +14,20 @@ module.exports = class Buy {
     this.number = (Math.random() * 100).toFixed(2);
   }
 
+  async UpperText(bookName) {
+    let text = bookName;
+    let endText = "";
+    let textUpper = [...text];
+    textUpper[0] = textUpper[0].toUpperCase();
+    textUpper.forEach((element) => {
+      endText = endText + element;
+    });
+    if (endText == "Mahoushoujo") {
+      endText = "MahouShoujo";
+    }
+    this.typebook = endText;
+  }
+
   async searchBook() {
     const numberRandom = await Book.find().countDocuments();
     const numberBook = Math.floor(Math.random() * numberRandom);
@@ -72,6 +86,41 @@ module.exports = class Buy {
         },
       },
       { $match: { book_id: book.bookName, typeRare: this.typeSearch() } },
+    ]);
+
+    if (buy.length >= 1) {
+      const index = Math.floor(Math.random() * buy.length);
+      return buy[index];
+    } else {
+      return buy;
+    }
+  }
+
+  async specialCard(select_Book) {
+    this.UpperText(select_Book);
+    let typebook = this.typebook
+    
+    const buy = await Card.aggregate([
+      {
+        $lookup: {
+          from: Book.collection.name,
+          localField: "book_id",
+          foreignField: "_id",
+          as: "book_id",
+        },
+      },
+      { $unwind: "$book_id" },
+      {
+        $project: {
+          _id: false,
+          cardName: "$cardName",
+          anime: "$anime",
+          cardURL: "$cardURL",
+          typeRare: "$typeRare",
+          book_id: "$book_id.bookName",
+        },
+      },
+      { $match: { book_id: typebook, typeRare: this.typeSearch() } },
     ]);
 
     if (buy.length >= 1) {
