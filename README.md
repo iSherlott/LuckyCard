@@ -15,6 +15,7 @@ ai!Daily - Obtem 1000 moedas diariamente. <br />
 ai!Wallet - Exibe o saldo da conta do usuario que executou o comando. <br />
 ai!Buy - Compra 1 pack de carta contendo 1 carta aleatoria no valor de 50 Rubias. <br />
 ai!PackBuy "book" - Compra um pack do book desejado no valor de 200 Rubias. <br />
+ai!BookAll - Exibe todas as cartas de todos os books.<br />
 ai!List "book" - Para verificar todas as cartas que tem do book informado. <br />
 ai!Rank - Se houver 10 players que atende o requisito, exibe os 10 com mais cartas <br />
 ai!RankR - Se houver 10 players que atende o requisito, exibe os 10 com mais cartas [R] <br />
@@ -33,7 +34,8 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 2.1.0 - comandos Rank, RankR, RankSR e RankUR acrescentado.<br />
+versão 2.1.1 - Comandos BookAll acrescentado.<br />
+versão 2.1.0 - Comandos Rank, RankR, RankSR e RankUR acrescentado.<br />
 
 versão 2.0.9 - Comando Fortune e comando PackBuy acrescentado.<br />
 versão 2.0.8 - Correção da exibição do TimeStrap do Daily.<br />

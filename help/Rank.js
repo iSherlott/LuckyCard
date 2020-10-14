@@ -74,4 +74,20 @@ module.exports = class Rank {
 
     return consult;
   }
+
+  async allCard() {
+    let consult = await CardObtained.aggregate([
+      { $match: { id: "738064956372680715" } },
+      { $group: { _id: { typeBook: "$typeBook" }, total: { $sum: 1 } } },
+      {
+        $project: {
+          _id: false,
+          id: "$_id.typeBook",
+          total: "$total",
+        },
+      },
+    ]);
+
+    return consult;
+  }
 };

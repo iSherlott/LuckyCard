@@ -420,21 +420,31 @@ client.on("message", async (message) => {
           const rank = new Rank();
 
           rank.rank().then((consultRank) => {
-            const rank_card = new Discord.MessageEmbed()
-              .setTitle("Top Rank Cartas")
-              .setColor("#8A2BE2").setDescription(`
-              #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
-              #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
-              #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
-              #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
-              #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
-              #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
-              #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
-              #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
-              #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
-              #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
-              `);
-            message.channel.send(rank_card);
+            if (consultRank.length >= 10) {
+              Card.find({})
+                .countDocuments()
+                .then((totalcard) => {
+                  const rank_card = new Discord.MessageEmbed()
+                    .setTitle("Top Rank Cartas")
+                    .setColor("#8A2BE2").setDescription(`
+                  #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}/${totalcard}\n
+                  #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}/${totalcard}\n
+                  #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}/${totalcard}\n
+                  #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}/${totalcard}\n
+                  #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}/${totalcard}\n
+                  #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}/${totalcard}\n
+                  #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}/${totalcard}\n
+                  #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}/${totalcard}\n
+                  #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}/${totalcard}\n
+                  #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}/${totalcard}\n
+                  `);
+                  message.channel.send(rank_card);
+                });
+            } else {
+              message.channel.send(
+                `Ainda não há quantidade minima de jogadores para exibir um rank`
+              );
+            }
           });
           break;
 
@@ -443,21 +453,25 @@ client.on("message", async (message) => {
 
           rankR.rankR().then((consultRank) => {
             if (consultRank.length >= 10) {
-              const rank_cardR = new Discord.MessageEmbed()
-                .setTitle("Top Rank Cartas")
-                .setColor("#8A2BE2").setDescription(`
-                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
-                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
-                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
-                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
-                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
-                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
-                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
-                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
-                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
-                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
-                `);
-              message.channel.send(rank_cardR);
+              Card.find({ typeRare: "[R]" })
+                .countDocuments()
+                .then((totalcard) => {
+                  const rankR_card = new Discord.MessageEmbed()
+                    .setTitle("Top Rank Cartas [R]")
+                    .setColor("#8A2BE2").setDescription(`
+                  #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}/${totalcard}\n
+                  #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}/${totalcard}\n
+                  #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}/${totalcard}\n
+                  #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}/${totalcard}\n
+                  #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}/${totalcard}\n
+                  #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}/${totalcard}\n
+                  #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}/${totalcard}\n
+                  #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}/${totalcard}\n
+                  #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}/${totalcard}\n
+                  #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}/${totalcard}\n
+                  `);
+                  message.channel.send(rankR_card);
+                });
             } else {
               message.channel.send(
                 `Ainda não há quantidade minima de jogadores para exibir um rank`
@@ -471,21 +485,25 @@ client.on("message", async (message) => {
 
           rankSR.rankSR().then((consultRank) => {
             if (consultRank.length >= 10) {
-              const rank_cardSR = new Discord.MessageEmbed()
-                .setTitle("Top Rank Cartas")
-                .setColor("#8A2BE2").setDescription(`
-                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
-                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
-                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
-                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
-                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
-                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
-                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
-                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
-                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
-                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
-                `);
-              message.channel.send(rank_cardSR);
+              Card.find({ typeRare: "[SR]" })
+                .countDocuments()
+                .then((totalcard) => {
+                  const rankSR_card = new Discord.MessageEmbed()
+                    .setTitle("Top Rank Cartas [R]")
+                    .setColor("#8A2BE2").setDescription(`
+                  #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}/${totalcard}\n
+                  #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}/${totalcard}\n
+                  #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}/${totalcard}\n
+                  #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}/${totalcard}\n
+                  #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}/${totalcard}\n
+                  #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}/${totalcard}\n
+                  #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}/${totalcard}\n
+                  #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}/${totalcard}\n
+                  #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}/${totalcard}\n
+                  #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}/${totalcard}\n
+                  `);
+                  message.channel.send(rankSR_card);
+                });
             } else {
               message.channel.send(
                 `Ainda não há quantidade minima de jogadores para exibir um rank`
@@ -499,21 +517,25 @@ client.on("message", async (message) => {
 
           rankUR.rankUR().then((consultRank) => {
             if (consultRank.length >= 10) {
-              const rank_cardUR = new Discord.MessageEmbed()
-                .setTitle("Top Rank Cartas")
-                .setColor("#8A2BE2").setDescription(`
-                #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}\n
-                #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}\n
-                #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}\n
-                #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}\n
-                #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}\n
-                #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}\n
-                #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}\n
-                #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}\n
-                #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}\n
-                #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}\n
-                `);
-              message.channel.send(rank_cardUR);
+              Card.find({ typeRare: "[UR]" })
+                .countDocuments()
+                .then((totalcard) => {
+                  const rankUR_card = new Discord.MessageEmbed()
+                    .setTitle("Top Rank Cartas [UR]")
+                    .setColor("#8A2BE2").setDescription(`
+                  #01 Nome: <@!${consultRank[0].id}> - Quantidade de cartas: ${consultRank[0].total}/${totalcard}\n
+                  #02 Nome: <@!${consultRank[1].id}> - Quantidade de cartas: ${consultRank[1].total}/${totalcard}\n
+                  #03 Nome: <@!${consultRank[2].id}> - Quantidade de cartas: ${consultRank[2].total}/${totalcard}\n
+                  #04 Nome: <@!${consultRank[3].id}> - Quantidade de cartas: ${consultRank[3].total}/${totalcard}\n
+                  #05 Nome: <@!${consultRank[4].id}> - Quantidade de cartas: ${consultRank[4].total}/${totalcard}\n
+                  #06 Nome: <@!${consultRank[5].id}> - Quantidade de cartas: ${consultRank[5].total}/${totalcard}\n
+                  #07 Nome: <@!${consultRank[6].id}> - Quantidade de cartas: ${consultRank[6].total}/${totalcard}\n
+                  #08 Nome: <@!${consultRank[7].id}> - Quantidade de cartas: ${consultRank[7].total}/${totalcard}\n
+                  #09 Nome: <@!${consultRank[8].id}> - Quantidade de cartas: ${consultRank[8].total}/${totalcard}\n
+                  #10 Nome: <@!${consultRank[9].id}> - Quantidade de cartas: ${consultRank[9].total}/${totalcard}\n
+                  `);
+                  message.channel.send(rankUR_card);
+                });
             } else {
               message.channel.send(
                 `Ainda não há quantidade minima de jogadores para exibir um rank`
@@ -522,11 +544,34 @@ client.on("message", async (message) => {
           });
           break;
 
+        case config.prefix + "bookall":
+          const allBook = new Rank();
+
+          allBook.allCard().then((all_book) => {
+            const resultbook = new Discord.MessageEmbed()
+              .setAuthor(
+                message.author.username,
+                `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}`
+              )
+              .setColor("#836FFF");
+
+            all_book.forEach((element) => {
+              resultbook.addField(
+                "Book: " + element.id,
+                "Total de cards: " + element.total + "/10",
+                true
+              );
+            });
+
+            message.channel.send(resultbook);
+          });
+          break;
+
         case config.prefix + "help":
           const help = new Discord.MessageEmbed()
             .setTitle("Help Commands")
             .setDescription(
-              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 1000 moedas diariamente\n Fortune - Obtem por hora um valor aleatório dentre 1 a 500\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n PackBuy "book" - Compra um pack do book desejado no valor de 200 ${config.moeda}.\n List "Nome do book" - exibe as cartas que você já obteve do book especifico.\n Rank - Rank do top 10 cartas.\n RankR - Rank do top 10 cartas [R].\n RankSR - Rank do top 10 cartas [SR].\n RankUR - Rank do top 10 cartas [UR].\n\n\n`
+              `Register - Cadastra-se no jogo.\n Wallet - Exibe o saldo da conta\n Daily - Obtem 1000 moedas diariamente\n Fortune - Obtem por hora um valor aleatório dentre 1 a 500\n Buy - Compra 1 pacote de cartas no valora de 50 ${config.moeda}\n PackBuy "book" - Compra um pack do book desejado no valor de 200 ${config.moeda}.\n BookAll - Exibe todas as cartas de todos os books\n List "Nome do book" - exibe as cartas que você já obteve do book especifico.\n Rank - Rank do top 10 cartas.\n RankR - Rank do top 10 cartas [R].\n RankSR - Rank do top 10 cartas [SR].\n RankUR - Rank do top 10 cartas [UR].\n\n\n`
             )
             .setColor("#8A2BE2")
             .setFooter(
