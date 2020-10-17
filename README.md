@@ -34,7 +34,8 @@ ai!Sub - Subtrair moedas a um jogador cadastrado (Comando Valor Player) <br />
 
 ### Notas de atualizações:
 
-versão 2.1.1 - corrigido erro no bookall.<br />
+versão 2.1.1 - Adaptando para o servidor.<br />
+versão 2.1.1 - Corrigido erro no bookall.<br />
 versão 2.1.1 - Comandos BookAll acrescentado.<br />
 versão 2.1.0 - Comandos Rank, RankR, RankSR e RankUR acrescentado.<br />
 

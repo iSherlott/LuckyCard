@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-require("../model/Register");
+require("../model/register");
 const Register = mongoose.model("register");
 
-require("../model/Book");
+require("../model/book");
 const Book = mongoose.model("book");
 
-require("../model/Card");
+require("../model/card");
 const Card = mongoose.model("card");
 
 module.exports = class Buy {
@@ -98,8 +98,8 @@ module.exports = class Buy {
 
   async specialCard(select_Book) {
     this.UpperText(select_Book);
-    let typebook = this.typebook
-    
+    let typebook = this.typebook;
+
     const buy = await Card.aggregate([
       {
         $lookup: {

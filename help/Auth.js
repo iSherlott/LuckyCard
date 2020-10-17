@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const authLevel3 = require("../config/authLevel3");
 const authGM = require("../config/authGM");
 
-require("../model/Setting");
+require("../model/setting");
 const Setting = mongoose.model("setting");
 
 module.exports = class Auth {
@@ -46,10 +46,8 @@ module.exports = class Auth {
     switch (cont) {
       case 0:
         return false;
-        break;
       case 1:
         return true;
-        break;
     }
   }
 

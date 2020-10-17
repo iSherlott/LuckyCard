@@ -13,22 +13,22 @@ const Rank = require("./help/Rank");
 
 const config = require("./config/config.json");
 
-require("./model/Log");
+require("./model/log");
 const Log = mongoose.model("log");
 
-require("./model/Book");
+require("./model/book");
 const Book = mongoose.model("book");
 
-require("./model/Register");
+require("./model/register");
 const Register = mongoose.model("register");
 
-require("./model/CardObtained");
+require("./model/cardobtained");
 const CardObtained = mongoose.model("cardObtained");
 
-require("./model/Card");
+require("./model/card");
 const Card = mongoose.model("card");
 
-require("./model/Setting");
+require("./model/setting");
 const Setting = mongoose.model("setting");
 
 client.on("ready", () => {

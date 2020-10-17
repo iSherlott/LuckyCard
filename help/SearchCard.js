@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-require("../model/CardObtained");
+require("../model/cardobtained");
 const CardObtained = mongoose.model("cardObtained");
 
 module.exports = class SearchCard {
