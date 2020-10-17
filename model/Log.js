@@ -24,5 +24,5 @@ const Log = new Schema({
     type: String,
   },
 });
-
+//log
 mongoose.model("log", Log);

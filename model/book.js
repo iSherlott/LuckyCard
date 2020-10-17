@@ -6,5 +6,5 @@ const Book = new Schema({
     type: String,
   },
 });
-
+//book
 mongoose.model("book", Book);
