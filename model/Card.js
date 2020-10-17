@@ -18,5 +18,5 @@ const Card = new Schema({
     type: String,
   },
 });
-//card
+
 mongoose.model("card", Card);
