@@ -547,17 +547,16 @@ client.on("message", async (message) => {
         case config.prefix + "bookall":
           const allBook = new Rank();
 
-          allBook.allCard().then((all_book) => {
+          allBook.allCard(message.author.id).then((all_book) => {
             const resultbook = new Discord.MessageEmbed()
               .setAuthor(
                 message.author.username,
                 `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}`
               )
               .setColor("#836FFF");
-
             all_book.forEach((element) => {
               resultbook.addField(
-                "Book: " + element.id,
+                "Book " + element.id,
                 "Total de cards: " + element.total + "/10",
                 true
               );
@@ -719,7 +718,10 @@ client.on("message", async (message) => {
       }).then((log) => {
         if (log) {
           log.command.push([message.author.id, message.content, new Date()]);
-          Log(log).save();
+          Log.updateOne(
+            { servidor_id: message.guild.id, channel_id: message.channel.id },
+            log
+          );
         } else {
           const log = {
             command: [],

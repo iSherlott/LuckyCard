@@ -75,9 +75,9 @@ module.exports = class Rank {
     return consult;
   }
 
-  async allCard() {
+  async allCard(id) {
     let consult = await CardObtained.aggregate([
-      { $match: { id: "738064956372680715" } },
+      { $match: { id: id } },
       { $group: { _id: { typeBook: "$typeBook" }, total: { $sum: 1 } } },
       {
         $project: {
